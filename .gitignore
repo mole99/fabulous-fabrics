@@ -1,0 +1,17 @@
+# Sphinx build folder
+build
+
+# Virtual environment
+*.venv
+
+# Fabric
+macro/
+runs/
+
+*.json
+*.png
+*.svg
+
+# Python
+*.egg-info/
+__pycache__/

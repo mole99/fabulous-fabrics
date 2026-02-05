@@ -1,0 +1,97 @@
+meta:
+  version: 2
+  flow: FABulousFabric
+  substituting_steps:
+    # Save some time
+    #Magic.DRC: null
+    #KLayout.DRC: null
+
+    # Add steps for LVS with KLayout
+    #+Checker.LVS: OpenROAD.WriteCDL
+    #+OpenROAD.WriteCDL: KLayout.LVS
+    
+    # The new version of OpenROAD says
+    # during DPL it needs stdcell rows
+    # (although we don't use stdcells)
+    #OpenROAD.DetailedPlacement: null
+
+# Basics
+DESIGN_NAME: eFPGA
+VERILOG_FILES: []
+
+# No extract-unique, because the power straps
+# are connected in the top-level integration
+MAGIC_EXT_UNIQUE: notopports
+
+# Unfortunately needed
+GRT_ALLOW_CONGESTION: true
+
+# FABulous config
+FABULOUS_FABRIC_CONFIG: dir::fabric.csv
+FABULOUS_TILE_LIBRARY: dir::../../../fabulous-tiles/tiles/
+
+FABULOUS_TILE_SPACING: 0
+# Vertical spacing should be multiple of 0.56 (Metal2 pitch)
+# Horizontal spacing should be multiple of 0.56 (Metal3 pitch)
+# The halo was chosen so that there's just enough space for the pins
+# except for the bottom: here the clock net needs to be routed
+FABULOUS_HALO_SPACING: [ 0.56, 5.6, 0.56, 0.56 ]
+
+# Use the minimum length for pins
+# that satisfies the minimum area constraint
+IO_PIN_H_LENGTH: null
+IO_PIN_V_LENGTH: null
+
+# Save on file space by sharing same cells
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+#KLAYOUT_CONFLICT_RESOLUTION: SkipNewCell
+
+# The pin placer tool has a default min distance between pins of 2 routing tracks.
+# Allow to place pins everywhere on the routing grid.
+IO_PIN_MIN_DISTANCE: 0.42 # horizontal grid distance
+
+# Manual pin placement to prevent congestion
+#FABULOUS_MANUAL_PINS:
+    
+# Clock
+CLOCK_PERIOD: 20
+CLOCK_PORT: UserCLK
+
+# Disable stdcells
+#SYNTH_ELABORATE_ONLY: true
+RUN_POST_GPL_DESIGN_REPAIR: false
+RUN_POST_CTS_RESIZER_TIMING: false
+DESIGN_REPAIR_BUFFER_INPUT_PORTS: false
+PDN_ENABLE_RAILS: false
+RUN_ANTENNA_REPAIR: false
+RUN_FILL_INSERTION: false
+RUN_TAP_ENDCAP_INSERTION: false
+RUN_CTS: false
+RUN_IRDROP_REPORT: false
+ERROR_ON_SYNTH_CHECKS: false
+
+# PDK specific
+pdk::sky130*:
+    # Routing
+    RT_MAX_LAYER: met4
+
+pdk::ihp-sg13*:
+    # Routing
+    RT_MAX_LAYER: TopMetal1
+
+    FABULOUS_TILE_SIZES:
+      LUT4x8_C:         [ 219.84, 219.24 ]
+
+      "NE*":            [ 68.64,  56.70 ]
+      "NW*":            [ 68.64,  56.70 ]
+      "SE*":            [ 68.64,  56.70 ]
+      "SW*":            [ 68.64,  56.70 ]
+
+      "N*":             [ 219.84, 56.70 ]
+      "E*":             [ 68.64, 219.24 ]
+      "S*":             [ 219.84, 56.70 ]
+      "W*":             [ 68.64, 219.24 ]
+
+pdk::gf180mcu*:
+    # Routing
+    RT_MAX_LAYER: Metal4
