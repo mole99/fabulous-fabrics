@@ -3,7 +3,7 @@ PDK_ROOT ?= ~/.ciel
 
 # A rule for all tiles
 fabric:
-	librelane --pdk ${PDK} fabrics/basic/config.yaml
+	librelane --pdk ${PDK} fabrics/basic/config.yaml --save-views-to fabrics/basic/macro/${PDK}/
 .PHONY: fabric
 
 fabric-openroad:

@@ -3,8 +3,8 @@ meta:
   flow: FABulousFabric
   substituting_steps:
     # Save some time
-    #Magic.DRC: null
-    #KLayout.DRC: null
+    Magic.DRC: null
+    KLayout.DRC: null
 
     # Add steps for LVS with KLayout
     #+Checker.LVS: OpenROAD.WriteCDL
@@ -14,6 +14,11 @@ meta:
     # during DPL it needs stdcell rows
     # (although we don't use stdcells)
     #OpenROAD.DetailedPlacement: null
+
+# No antenna repair - we don't have
+# standard cells at the top-level
+GRT_ANTENNA_REPAIR_ITERS: 0
+DRT_ANTENNA_REPAIR_ITERS: 0
 
 # Basics
 DESIGN_NAME: eFPGA
@@ -35,7 +40,7 @@ FABULOUS_TILE_SPACING: 0
 # Horizontal spacing should be multiple of 0.56 (Metal3 pitch)
 # The halo was chosen so that there's just enough space for the pins
 # except for the bottom: here the clock net needs to be routed
-FABULOUS_HALO_SPACING: [ 0.56, 5.6, 0.56, 0.56 ]
+FABULOUS_HALO_SPACING: [ 0, 0, 0, 0 ]
 
 # Use the minimum length for pins
 # that satisfies the minimum area constraint
