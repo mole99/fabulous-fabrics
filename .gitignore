@@ -15,3 +15,6 @@ runs/
 # Python
 *.egg-info/
 __pycache__/
+
+# LibreOffice
+.~lock*

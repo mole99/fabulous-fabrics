@@ -1,0 +1,101 @@
+meta:
+  version: 2
+  flow: FABulousFabric
+  substituting_steps:
+    # Save some time
+    Magic.DRC: null
+    KLayout.DRC: null
+    
+    # Usess excessive amounts of RAM and runtime
+    Magic.WriteLEF: null
+    
+    # Needs the LEF
+    Odb.CheckDesignAntennaProperties: null
+
+# No antenna repair - we don't have
+# standard cells at the top-level
+GRT_ANTENNA_REPAIR_ITERS: 0
+DRT_ANTENNA_REPAIR_ITERS: 0
+
+# Basics
+DESIGN_NAME: eFPGA
+VERILOG_FILES: []
+
+# No extract-unique, because the power straps
+# are connected in the top-level integration
+MAGIC_EXT_UNIQUE: notopports
+
+# Unfortunately needed
+GRT_ALLOW_CONGESTION: true
+
+# FABulous config
+FABULOUS_FABRIC_CONFIG: dir::fabric_31x31.csv
+FABULOUS_TILE_LIBRARY: dir::../../ip/fabulous-tiles/tiles/
+
+FABULOUS_TILE_SPACING: 0
+FABULOUS_HALO_SPACING: [ 0, 0, 0, 0 ]
+
+# Use the minimum length for pins
+# that satisfies the minimum area constraint
+IO_PIN_H_LENGTH: null
+IO_PIN_V_LENGTH: null
+
+# Save on file space by sharing same cells
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+#KLAYOUT_CONFLICT_RESOLUTION: SkipNewCell
+    
+# Clock
+CLOCK_PERIOD: 20
+CLOCK_PORT: UserCLK
+
+# PDK specific
+pdk::sky130*:
+    # Routing
+    RT_MAX_LAYER: met4
+
+    FABULOUS_TILE_SIZES:
+      LUT4x8_C:         [ 210.80, 223.04 ]
+
+      "NE*":            [  56.12,  57.12 ]
+      "NW*":            [  56.12,  57.12 ]
+      "SE*":            [  56.12,  57.12 ]
+      "SW*":            [  56.12,  57.12 ]
+
+      "N*":             [ 210.80,  57.12 ]
+      "E*":             [  56.12, 223.04 ]
+      "S*":             [ 210.80,  57.12 ]
+      "W*":             [  56.12, 223.04 ]
+
+pdk::ihp-sg13*:
+    # Routing
+    RT_MAX_LAYER: TopMetal1
+
+    FABULOUS_TILE_SIZES:
+      LUT4x8_C:         [ 219.84, 219.24 ]
+
+      "NE*":            [  68.64,  56.70 ]
+      "NW*":            [  68.64,  56.70 ]
+      "SE*":            [  68.64,  56.70 ]
+      "SW*":            [  68.64,  56.70 ]
+
+      "N*":             [ 219.84,  56.70 ]
+      "E*":             [  68.64, 219.24 ]
+      "S*":             [ 219.84,  56.70 ]
+      "W*":             [  68.64, 219.24 ]
+
+pdk::gf180mcu*:
+    # Routing
+    RT_MAX_LAYER: Metal4
+
+    FABULOUS_TILE_SIZES:
+      LUT4x8_C:         [ 302.96, 302.96 ]
+
+      "NE*":            [  72.80,  77.84 ]
+      "NW*":            [  72.80,  77.84 ]
+      "SE*":            [  72.80,  77.84 ]
+      "SW*":            [  72.80,  77.84 ]
+
+      "N*":             [ 302.96,  77.84 ]
+      "E*":             [  72.80, 302.96 ]
+      "S*":             [ 302.96,  77.84 ]
+      "W*":             [  72.80, 302.96 ]
