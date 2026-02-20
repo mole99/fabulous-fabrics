@@ -18,3 +18,14 @@ __pycache__/
 
 # LibreOffice
 .~lock*
+
+# User designs
+*.json
+*_out.json
+*.fasm
+*.hex
+*_log.txt
+*.bit
+
+# cocotb
+sim_build/
