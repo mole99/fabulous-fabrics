@@ -1,0 +1,28 @@
+
+set_io clk1 X0Y1/A
+set_io clk2 X0Y2/A
+set_io ena  X0Y3/A
+set_io rst  X0Y4/A
+
+set_io a[0] X1Y31/A
+set_io a[1] X2Y31/A
+set_io a[2] X3Y31/A
+set_io a[3] X4Y31/A
+set_io a[4] X6Y31/A
+set_io a[5] X7Y31/A
+
+set_io b[0] X1Y0/A
+set_io b[1] X2Y0/A
+set_io b[2] X3Y0/A
+set_io b[3] X4Y0/A
+set_io b[4] X6Y0/A
+set_io b[5] X7Y0/A
+
+set_io c[0] X31Y1/A
+set_io c[1] X31Y2/A
+set_io c[2] X31Y3/A
+set_io c[3] X31Y4/A
+set_io c[4] X31Y5/A
+set_io c[5] X31Y6/A
+set_io c[6] X31Y7/A
+set_io c[7] X31Y8/A

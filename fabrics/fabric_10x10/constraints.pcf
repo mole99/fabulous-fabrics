@@ -1,0 +1,66 @@
+# For general tests
+
+set_io clk1 X0Y1/A
+set_io clk2 X0Y2/A
+set_io ena  X0Y3/A
+set_io rst  X0Y4/A
+
+set_io e[0] X0Y5/A
+set_io e[1] X0Y6/A
+set_io e[2] X0Y7/A
+set_io e[3] X0Y8/A
+
+set_io a[0] X1Y9/A
+set_io a[1] X2Y9/A
+set_io a[2] X4Y9/A
+set_io a[3] X5Y9/A
+set_io a[4] X7Y9/A
+set_io a[5] X8Y9/A
+
+set_io b[0] X1Y0/A
+set_io b[1] X2Y0/A
+set_io b[2] X4Y0/A
+set_io b[3] X5Y0/A
+set_io b[4] X7Y0/A
+set_io b[5] X8Y0/A
+
+set_io c[0] X9Y1/A
+set_io c[1] X9Y2/A
+set_io c[2] X9Y3/A
+set_io c[3] X9Y4/A
+set_io c[4] X9Y5/A
+set_io c[5] X9Y6/A
+set_io c[6] X9Y7/A
+set_io c[7] X9Y8/A
+
+# For the register_file test
+
+set_io addr_a[0] X1Y9/A
+set_io addr_a[1] X2Y9/A
+set_io addr_a[2] X4Y9/A
+set_io addr_a[3] X5Y9/A
+set_io addr_a[4] X7Y9/A
+
+set_io addr_b[0] X1Y0/A
+set_io addr_b[1] X2Y0/A
+set_io addr_b[2] X4Y0/A
+set_io addr_b[3] X5Y0/A
+set_io addr_b[4] X7Y0/A
+
+set_io addr_c[0] X8Y9/A
+set_io addr_c[1] X8Y0/A
+
+set_io word_a[0] X0Y5/A
+set_io word_a[1] X0Y6/A
+set_io word_a[2] X0Y7/A
+set_io word_a[3] X0Y8/A
+
+set_io word_b[0] X9Y1/A
+set_io word_b[1] X9Y2/A
+set_io word_b[2] X9Y3/A
+set_io word_b[3] X9Y4/A
+
+set_io word_c[4] X9Y5/A
+set_io word_c[5] X9Y6/A
+set_io word_c[6] X9Y7/A
+set_io word_c[7] X9Y8/A
