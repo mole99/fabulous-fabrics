@@ -1,0 +1,35 @@
+// SPDX-FileCopyrightText: © 2026 FABulous Contributors
+// SPDX-License-Identifier: Apache-2.0
+
+`default_nettype none
+
+module counter (
+    input  wire       clk1,
+    input  wire       rst,
+    input  wire       ena,
+    
+    output wire [7:0] c
+);
+
+    wire clk1_buf;
+
+    (* keep, BEL="X0Y9.A" *) GBUF clock_buf (
+      .IN   (clk1),
+      .OUT  (clk1_buf)
+    );
+
+    reg [7:0] ctr1;
+
+    always @(posedge clk1_buf) begin
+        if (ena) begin
+	        if (rst) begin
+		          ctr1 <= '0;
+	        end else begin
+              ctr1 <= ctr1 + 1'b1;
+          end
+        end
+    end
+
+    assign c = ctr1;
+
+endmodule
