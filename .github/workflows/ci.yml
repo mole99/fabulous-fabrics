@@ -50,10 +50,15 @@ jobs:
         with:
           nix_system: x86_64-linux
           derivation: github:mole99/librelane_plugin_fabulous
-      - name: Check Nix
-        run: |
-          sudo du -hs /nix/store/* | sort -h | tail -n 10
-          sudo tree /nix/store/*-librelane || true
       - name: Implement the tiles
         run: |
-          PDK=${{ matrix.pdk }} nix develop --command make all
+          PDK=${{ matrix.pdk }} nix develop --command bash -c "cd ip/fabulous-tiles/ && make all"
+      - name: Stitch the tiles
+        run: |
+          PDK=${{ matrix.pdk }} nix develop --command make fabric_10x10
+      - name: Upload Macro Folder
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fabric_10x10_${{ matrix.pdk }}
+          path: fabrics/fabric_10x10/macro/${{ matrix.pdk }}/
