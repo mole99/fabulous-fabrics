@@ -35,6 +35,16 @@
             nix-eda.overlays.default
             devshell.overlays.default
             librelane.overlays.default
+            librelane_plugin_fabulous.overlays.default
+            (nix-eda.composePythonOverlay (
+            pkgs': pkgs: pypkgs': pypkgs:
+            let
+              callPythonPackage = lib.callPackageWith (pkgs' // pypkgs');
+            in
+            {
+              cocotbext-spi = callPythonPackage ./nix/cocotbext-spi.nix { };
+            }
+          ))
           ];
         }
       );
@@ -43,6 +53,37 @@
         inherit (self.legacyPackages.${system}.python3.pkgs) ;
       });
 
-      devShells = librelane_plugin_fabulous.devShells;
+      devShells = nix-eda.forAllSystems (
+        system:
+        let
+          pkgs = (self.legacyPackages.${system});
+          callPackage = lib.callPackageWith pkgs;
+        in
+        {
+          default = pkgs.librelane-shell.override ({
+            librelane-plugins = ps: with ps; [librelane-plugin-fabulous];
+            extra-packages = with pkgs; [
+              # Utilities
+              gnumake
+              gnugrep
+              gawk
+
+              # Simulation
+              iverilog
+              verilator
+
+              # Waveform viewing
+              gtkwave
+              surfer
+            ];
+            extra-python-packages = ps: with ps; [
+              # Verification
+              cocotb
+              cocotbext-spi
+              pytest
+            ];
+          });
+        }
+      );
     };
 }
