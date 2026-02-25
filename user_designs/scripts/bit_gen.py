@@ -44,19 +44,36 @@ def genBitstream(fasmFile: str, specFile: str, bitstreamFile: str):
     # Please bear in mind that the tilespecs are now mapped by tile loc and not by cell type
 
     for line in canonList:
-        if "CLK" in set_feature_to_str(line.set_feature):
-            continue
+        #if "CLK" in set_feature_to_str(line.set_feature):
+        #    print(f"Skipping {line} {line.set_feature} {set_feature_to_str(line.set_feature)}")
+        #    continue
         if line.set_feature:
+        
+            i0mux = False
+            if "I0mux" in set_feature_to_str(line.set_feature):
+                print(set_feature_to_str(line.set_feature))
+                i0mux = True
+        
             tileVals = set_feature_to_str(line.set_feature).split(".")
             tileLoc = tileVals[0]
             featureName = ".".join((tileVals[1], tileVals[2]))
+            
+            if i0mux:
+                print(f"{tileLoc} {featureName}")
+            
             if tileLoc not in specDict["TileMap"].keys():
-                print("Tile found in fasm file not found in bitstream spec")
+                print(f"Tile {tileLoc} found in fasm file not found in bitstream spec")
                 raise Exception
+
             # Set the necessary bits high
             tileType = specDict["TileMap"][tileLoc]
             if featureName in specDict["TileSpecs"][tileLoc].keys():
                 if specDict["TileSpecs"][tileLoc][featureName]:
+                
+                    if i0mux:
+                        print(specDict["TileSpecs"][tileLoc][featureName])
+                        print(specDict["TileSpecs_No_Mask"][tileLoc][featureName])
+                
                     for bitIndex in specDict["TileSpecs"][tileLoc][featureName]:
                         tileDict[tileLoc][bitIndex] = int(
                             specDict["TileSpecs"][tileLoc][featureName][bitIndex]
@@ -72,9 +89,7 @@ def genBitstream(fasmFile: str, specFile: str, bitstreamFile: str):
 
             else:
                 # print(specDict["TileSpecs"][tileLoc].keys())
-                print(tileType)
-                print(tileLoc)
-                print(featureName)
+                print(f"{tileType} {tileLoc} {featureName}")
                 print(
                     "Feature found in fasm file was not found in the bitstream spec"
                 )
@@ -98,10 +113,7 @@ def genBitstream(fasmFile: str, specFile: str, bitstreamFile: str):
         "library IEEE;\nuse IEEE.STD_LOGIC_1164.ALL;\n\npackage emulate_bitstream is\n"
     )
     for tileKey in tileDict_No_Mask:
-        if (
-            specDict["TileMap"][tileKey] == "NULL"
-            or len(specDict["FrameMap"][specDict["TileMap"][tileKey]]) == 0
-        ):
+        if specDict["TileMap"][tileKey] == "NULL":
             continue
         verilog_str += f"// {tileKey}, {specDict['TileMap'][tileKey]}\n"
         verilog_str += f"`define Tile_{tileKey}_Emulate_Bitstream {MaxFramesPerCol*FrameBitsPerRow}'b"
@@ -182,10 +194,10 @@ def genBitstream(fasmFile: str, specFile: str, bitstreamFile: str):
     # Tile Loc, Tile Type, X, Y, bits...... \n
     # Each line is one tile
     # Write out bitstream CSV representation
-    print(outStr, file=open(bitstreamFile.replace("bin", "csv"), "w+"))
+    print(outStr, file=open(bitstreamFile.replace("bit", "csv"), "w+"))
     # Write out HDL representations
-    print(verilog_str, file=open(bitstreamFile.replace("bin", "vh"), "w+"))
-    print(vhdl_str, file=open(bitstreamFile.replace("bin", "vhd"), "w+"))
+    print(verilog_str, file=open(bitstreamFile.replace("bit", "vh"), "w+"))
+    print(vhdl_str, file=open(bitstreamFile.replace("bit", "vhd"), "w+"))
     # Write out binary representation
     with open(bitstreamFile, "bw+") as f:
         f.write(bitStr)
