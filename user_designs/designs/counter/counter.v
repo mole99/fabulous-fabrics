@@ -20,15 +20,27 @@ module counter (
 
     reg [7:0] ctr1;
 
+    // Reset before enable
     always @(posedge clk1_buf) begin
-        if (ena) begin
-	        if (rst) begin
-		          ctr1 <= '0;
-	        end else begin
-              ctr1 <= ctr1 + 1'b1;
-          end
+        if (rst) begin
+            ctr1 <= '0;
+        end else begin
+            if (ena) begin
+                ctr1 <= ctr1 + 1'b1;
+            end
         end
     end
+
+    // Enable before reset
+    /*always @(posedge clk1_buf) begin
+        if (ena) begin
+            if (rst) begin
+                ctr1 <= '0;
+            end else begin
+                ctr1 <= ctr1 + 1'b1;
+            end
+        end
+    end*/
 
     assign c = ctr1;
 

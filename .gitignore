@@ -29,6 +29,7 @@ __pycache__/
 *.csv
 *.vh
 *.vhd
+*.dot
 
 # cocotb
 sim_build/
