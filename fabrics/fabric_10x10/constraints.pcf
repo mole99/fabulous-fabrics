@@ -60,7 +60,7 @@ set_io word_b[1] X9Y2/A
 set_io word_b[2] X9Y3/A
 set_io word_b[3] X9Y4/A
 
-set_io word_c[4] X9Y5/A
-set_io word_c[5] X9Y6/A
-set_io word_c[6] X9Y7/A
-set_io word_c[7] X9Y8/A
+set_io word_c[0] X9Y5/A
+set_io word_c[1] X9Y6/A
+set_io word_c[2] X9Y7/A
+set_io word_c[3] X9Y8/A

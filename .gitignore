@@ -26,6 +26,10 @@ __pycache__/
 *.hex
 *_log.txt
 *.bit
+*.csv
+*.vh
+*.vhd
 
 # cocotb
 sim_build/
+*.gtkw
