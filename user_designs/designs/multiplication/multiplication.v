@@ -4,11 +4,11 @@
 `default_nettype none
 
 module multiplication (
-    input  wire [3:0] a,
-    input  wire [3:0] b,
-    output wire [7:0] c
+    input  wire [5:0] a,
+    input  wire [5:0] b,
+    output wire [11:0] product
 );
 
-    assign c = a * b;
+    assign product = a * b;
 
 endmodule

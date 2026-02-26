@@ -16,11 +16,17 @@ proj_path = Path(__file__).resolve().parent
 fabric = os.getenv("FABRIC", "fabric_10x10")
 
 @cocotb.test()
-async def test_multiplication(dut):
-    """Load bitstream for multiplication"""
+async def test_macc_8x8_20(dut):
+    """Load bitstream for macc_8x8_20"""
 
     pcf = PCF(dut, proj_path / f"../../fabrics/{fabric}/constraints.pcf")
-    pcf.write_gtkw(f"{testname}.gtkw", ["a", "b", "product"])
+    pcf.write_gtkw(f"{testname}.gtkw", ["clk1", "rst", "ena", "a", "b", "product"])
+
+    # Reset
+    pcf.set("clk1", Logic(0), index=0)
+    pcf.set("rst", Logic(1), index=0)
+    pcf.set("ena", Logic(1), index=0)
+    await Timer(10, unit="ns")
 
     # Zero all config bits
     await zero_bitstream(dut)
@@ -29,6 +35,12 @@ async def test_multiplication(dut):
     # Upload the bitstream
     await upload_bitstream(dut, proj_path / f'../../user_designs/designs/{testname}/{testname}.bit')
     await Timer(10, unit="ns")
+    
+    # Start a clock on clk1
+    clock1 = pcf.get_raw("clk1", "OUT")
+    cocotb.start_soon(Clock(clock1, 10, 'ns').start())
+    
+    await ClockCycles(clock1, 10)
     
     for i in range(32):
         # Get a random value
@@ -40,5 +52,5 @@ async def test_multiplication(dut):
         pcf.set("a", LogicArray.from_unsigned(value_a, len(pcf.get("a"))))
         pcf.set("b", LogicArray.from_unsigned(value_b, len(pcf.get("b"))))
         
-        await Timer(10, unit="ns")
+        await ClockCycles(clock1, 1)
         assert(pcf.get("product").to_unsigned() == result)

@@ -4,13 +4,9 @@
 `default_nettype none
 
 module all_ones (
-    output wire [5:0] a,
-    output wire [5:0] b,
-    output wire [7:0] c
+    output wire [27:0] all
 );
 
-    assign a = '1;
-    assign b = '1;
-    assign c = '1;
+    assign all = '1;
 
 endmodule

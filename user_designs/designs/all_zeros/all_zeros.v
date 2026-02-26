@@ -4,13 +4,9 @@
 `default_nettype none
 
 module all_zeros (
-    output wire [5:0] a,
-    output wire [5:0] b,
-    output wire [7:0] c
+    output wire [27:0] all
 );
 
-    assign a = '0;
-    assign b = '0;
-    assign c = '0;
+    assign all = '0;
 
 endmodule

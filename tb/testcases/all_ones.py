@@ -19,7 +19,7 @@ async def test_all_ones(dut):
     """Load bitstream for all_ones"""
 
     pcf = PCF(dut, proj_path / f"../../fabrics/{fabric}/constraints.pcf")
-    pcf.write_gtkw(f"{testname}.gtkw", ["a", "b", "c"])
+    pcf.write_gtkw(f"{testname}.gtkw", ["all"])
 
     # Zero all config bits
     await zero_bitstream(dut)
@@ -29,6 +29,4 @@ async def test_all_ones(dut):
     await upload_bitstream(dut, proj_path / f'../../user_designs/designs/{testname}/{testname}.bit')
     await Timer(10, unit="ns")
     
-    assert pcf.get("a").to_unsigned() == LogicArray.from_signed(-1, len(pcf.get("a")))
-    assert pcf.get("b").to_unsigned() == LogicArray.from_signed(-1, len(pcf.get("b")))
-    assert pcf.get("c").to_unsigned() == LogicArray.from_signed(-1, len(pcf.get("c")))
+    assert pcf.get("all").to_unsigned() == LogicArray.from_signed(-1, len(pcf.get("all")))

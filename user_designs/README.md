@@ -57,5 +57,3 @@ Commands:
 
 export PATH=~/Repositories/yosys:$PATH
 export PATH=~/Repositories/nextpnr/build/:$PATH
-
-export PATH=~/Repositories/nextpnr-kelvin/build/:$PATH

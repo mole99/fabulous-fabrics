@@ -1,3 +1,37 @@
+# All I/Os
+
+set_io all[0] X0Y1/A
+set_io all[1] X0Y2/A
+set_io all[2] X0Y3/A
+set_io all[3] X0Y4/A
+set_io all[4] X0Y5/A
+set_io all[5] X0Y6/A
+set_io all[6] X0Y7/A
+set_io all[7] X0Y8/A
+
+set_io all[8] X1Y9/A
+set_io all[9] X2Y9/A
+set_io all[10] X4Y9/A
+set_io all[11] X5Y9/A
+set_io all[12] X7Y9/A
+set_io all[13] X8Y9/A
+
+set_io all[14] X1Y0/A
+set_io all[15] X2Y0/A
+set_io all[16] X4Y0/A
+set_io all[17] X5Y0/A
+set_io all[18] X7Y0/A
+set_io all[19] X8Y0/A
+
+set_io all[20] X9Y1/A
+set_io all[21] X9Y2/A
+set_io all[22] X9Y3/A
+set_io all[23] X9Y4/A
+set_io all[24] X9Y5/A
+set_io all[25] X9Y6/A
+set_io all[26] X9Y7/A
+set_io all[27] X9Y8/A
+
 # For general tests
 
 set_io clk1 X0Y1/A
@@ -64,3 +98,18 @@ set_io word_c[0] X9Y5/A
 set_io word_c[1] X9Y6/A
 set_io word_c[2] X9Y7/A
 set_io word_c[3] X9Y8/A
+
+# For the macc_8x8_20 test
+
+set_io product[0] X9Y1/A
+set_io product[1] X9Y2/A
+set_io product[2] X9Y3/A
+set_io product[3] X9Y4/A
+set_io product[4] X9Y5/A
+set_io product[5] X9Y6/A
+set_io product[6] X9Y7/A
+set_io product[7] X9Y8/A
+set_io product[8] X0Y5/A
+set_io product[9] X0Y6/A
+set_io product[10] X0Y7/A
+set_io product[11] X0Y8/A

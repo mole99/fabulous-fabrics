@@ -10,13 +10,17 @@ FFS                     ?= -ff "\$$_DFF_P_" x \
 			   -ff "\$$_SDFFE_PP?P_" x \
 			   -ff "\$$_DLATCH_?_" x
 
+MULTIPLIER_MAP_PATH 	?= -multiplier-map ../../../ip/fabulous-tiles/primitives/MACC_8x8_20/yosys/techmap/MACC_8x8_20_map.v
+
 EXTRA_PLIBS_PATH 	?= -extra-plib ../../../ip/fabulous-tiles/primitives/FABULOUS_LC/yosys/primitives/prims.v \
 			   -extra-plib ../../../ip/fabulous-tiles/primitives/IOBUF/yosys/primitives/IOBUF.v \
 			   -extra-plib ../../../ip/fabulous-tiles/primitives/IBUF/yosys/primitives/IBUF.v \
 			   -extra-plib ../../../ip/fabulous-tiles/primitives/OBUF/yosys/primitives/OBUF.v \
 			   -extra-plib ../../../ip/fabulous-tiles/primitives/TBUF/yosys/primitives/TBUF.v \
 			   -extra-plib ../../../ip/fabulous-tiles/primitives/GBUF/yosys/primitives/GBUF.v \
-			   -extra-plib ../../../ip/fabulous-tiles/primitives/RAM_32x4_2R_1W/yosys/primitives/RAM_32x4_2R_1W.v
+			   -extra-plib ../../../ip/fabulous-tiles/primitives/RAM_32x4_2R_1W/yosys/primitives/RAM_32x4_2R_1W.v \
+   			   -extra-plib ../../../ip/fabulous-tiles/primitives/MACC_8x8_20/yosys/primitives/MACC_8x8_20.v \
+   			   -extra-plib ../../../ip/fabulous-tiles/primitives/SYS_RESET/yosys/primitives/SYS_RESET.v
 
 EXTRA_MAPS_PATH		?= -extra-map ../../../ip/fabulous-tiles/primitives/FABULOUS_LC/yosys/techmap/lut_map.v \
 			   -extra-map ../../../ip/fabulous-tiles/primitives/FABULOUS_LC/yosys/techmap/ff_map.v \
@@ -40,6 +44,7 @@ synth:
 	-carry ha \
 	-complex-dff \
 	$(FFS) \
+	$(MULTIPLIER_MAP_PATH) \
 	$(EXTRA_PLIBS_PATH) \
 	$(EXTRA_MAPS_PATH) \
 	$(EXTRA_MLIBMAPS_PATH); \
@@ -85,6 +90,7 @@ clean:
 	rm -rf $(TOP).vh
 	rm -rf $(TOP).vhd
 	rm -rf $(TOP).csv
+	rm -rf $(TOP).dot
 .PHONY: clean
 
 help:
