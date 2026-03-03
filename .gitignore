@@ -19,18 +19,6 @@ __pycache__/
 # LibreOffice
 .~lock*
 
-# User designs
-*.json
-*_out.json
-*.fasm
-*.hex
-*_log.txt
-*.bit
-*.csv
-*.vh
-*.vhd
-*.dot
-
 # cocotb
 sim_build/
 *.gtkw

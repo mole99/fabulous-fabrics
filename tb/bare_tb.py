@@ -14,7 +14,7 @@ from cocotb_tools.runner import get_runner
 from cocotb.types import LogicArray, Logic
 
 proj_path = Path(__file__).resolve().parent
-fabric = os.getenv("FABRIC", "fabric_10x10")
+fabric = os.getenv("FABRIC", "classic_fabric_10x10")
 
 if __name__ == "__main__":
 
@@ -26,9 +26,7 @@ if __name__ == "__main__":
     emulation = os.getenv("EMULATION", False)
     tile_library = os.getenv("TILE_LIBRARY", "classic")
     
-    
     tiles_path = Path(proj_path / ".." / "ip" / "fabulous-tiles")
-
     primitives_path = Path(tiles_path) / "primitives"
     tile_library_path = Path(tiles_path) / "tiles" / tile_library
 
@@ -43,7 +41,7 @@ if __name__ == "__main__":
     test_filter = None
     
     if emulation:
-        sources.append(proj_path / f'../user_designs/designs/{emulation}/{emulation}.vh')
+        sources.append(proj_path / f'../user_designs/designs/{tile_library}/{emulation}/{emulation}.vh')
         defines = {"EMULATION": True}
         test_filter = "test_" + emulation
     

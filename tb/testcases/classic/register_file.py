@@ -8,17 +8,16 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, Timer
 from cocotb.types import LogicArray, Logic
 
-from .common import zero_bitstream, upload_bitstream, PCF
+from ..common import zero_bitstream, upload_bitstream, PCF, fabric, tile_library
 
 testname = Path(__file__).stem
 proj_path = Path(__file__).resolve().parent
-fabric = os.getenv("FABRIC", "fabric_10x10")
 
 @cocotb.test()
 async def test_register_file(dut):
     """Load bitstream for register_file"""
 
-    pcf = PCF(dut, proj_path / f"../../fabrics/{fabric}/constraints.pcf")
+    pcf = PCF(dut, proj_path / f"../../../fabrics/{fabric}/constraints.pcf")
     pcf.write_gtkw(f"{testname}.gtkw", ["clk1", "clk2", "word_a", "addr_a", "addr_b", "addr_c", "word_b", "word_c"])
 
     # Reset
@@ -33,7 +32,7 @@ async def test_register_file(dut):
     await Timer(10, unit="ns")
 
     # Upload the bitstream
-    await upload_bitstream(dut, proj_path / f'../../user_designs/designs/{testname}/{testname}.bit')
+    await upload_bitstream(dut, proj_path / f'../../../user_designs/designs/{tile_library}/{testname}/{testname}.bit')
     await Timer(10, unit="ns")
     
     # Start a clock on clk1

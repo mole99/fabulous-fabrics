@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: © 2026 FABulous Contributors
 # SPDX-License-Identifier: Apache-2.0
 
+import os
 import re
 from cocotb.triggers import Timer
 from cocotb.regression import TestFactory
@@ -13,6 +14,9 @@ FRAME_SELECT_WIDTH = 5 # hardcoded, should be based on FABRIC_NUM_COLUMNS
 
 BITSTREAM_START = 0xFAB0FAB1
 DESYNC_FLAG = 20
+
+fabric = os.getenv("FABRIC", "classic_fabric_10x10")
+tile_library = os.getenv("TILE_LIBRARY", "classic")
 
 async def zero_bitstream(dut, delay=10):
     """
@@ -101,7 +105,7 @@ async def upload_bitstream(dut, bitstream_path, delay=10):
         await Timer(delay, unit="ns")
 
 class PCF:
-    "A class to load a PCF file and find the signals in the testbench."
+    "A class to read a PCF file and access the signals within cocotb."
 
     def __init__(self, dut, file):
         self.signals = {}
@@ -150,6 +154,7 @@ class PCF:
                         }
 
     def write_gtkw(self, path, filter=None):
+        "Write a gtkwave save file in order to view the selected signals"
         with open(path, "w") as outfile:
             outfile.write(f"@28\n")
             for signal_name, signal in self.signals.items():
@@ -180,6 +185,7 @@ class PCF:
                     
 
     def find_signal(self, dut, tile_x, tile_y, bel, use):
+        "Find a signal handle using cocotb"
         for element in dut:
             if match := re.match(r"Tile_X(?P<tilex>\d+)Y(?P<tiley>\d+)_(?P<bel>\w)_(?P<use>\w+)_top", element._name):
                 match_x = match.group("tilex")
@@ -193,6 +199,7 @@ class PCF:
         return None
 
     def get(self, signal, index=None):
+        "Get the value of a signal"
         #print(f"get {signal} {index}")
     
         # Get the full signal
@@ -203,6 +210,7 @@ class PCF:
             return Logic(self.signals[signal][index]["IN"].value)
     
     def set(self, signal, value, index=None):
+        "Set the value of a signal"
         #print(f"set {signal} {value} {index}")
         
         # Get the full signal
@@ -213,4 +221,5 @@ class PCF:
             self.signals[signal][index]["OUT"].value = value
 
     def get_raw(self, signal, use, index=0):
+        "Get the raw cocotb signal. Can be used for triggers."
         return self.signals[signal][index][use]

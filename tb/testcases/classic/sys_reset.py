@@ -8,17 +8,16 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles, Timer
 from cocotb.types import LogicArray, Logic
 
-from .common import zero_bitstream, upload_bitstream, PCF
+from ..common import zero_bitstream, upload_bitstream, PCF, fabric, tile_library
 
 testname = Path(__file__).stem
 proj_path = Path(__file__).resolve().parent
-fabric = os.getenv("FABRIC", "fabric_10x10")
 
 @cocotb.test()
 async def test_sys_reset(dut):
     """Load bitstream for sys_reset"""
 
-    pcf = PCF(dut, proj_path / f"../../fabrics/{fabric}/constraints.pcf")
+    pcf = PCF(dut, proj_path / f"../../../fabrics/{fabric}/constraints.pcf")
     pcf.write_gtkw(f"{testname}.gtkw", ["clk1", "a", "b"])
 
     # Find SYS_RESET.RESET
@@ -41,13 +40,13 @@ async def test_sys_reset(dut):
     cocotb.start_soon(Clock(clock1, 10, 'ns').start())
 
     # Upload the bitstream
-    await upload_bitstream(dut, proj_path / f'../../user_designs/designs/{testname}/{testname}.bit')
+    await upload_bitstream(dut, proj_path / f'../../../user_designs/designs/{tile_library}/{testname}/{testname}.bit')
     await Timer(10, unit="ns")
 
     pcf.set("a", LogicArray.from_unsigned(0x13, len(pcf.get("a"))))
     assert pcf.get("b").to_unsigned() == 0x37
 
     sys_reset.value = 0
-    await Timer(10, unit="ns")
+    await Timer(20, unit="ns")
 
     assert pcf.get("b").to_unsigned() == 0x13
