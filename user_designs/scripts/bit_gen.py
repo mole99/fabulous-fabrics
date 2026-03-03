@@ -48,18 +48,9 @@ def genBitstream(fasmFile: str, specFile: str, bitstreamFile: str):
         #    print(f"Skipping {line} {line.set_feature} {set_feature_to_str(line.set_feature)}")
         #    continue
         if line.set_feature:
-        
-            i0mux = False
-            if "I0mux" in set_feature_to_str(line.set_feature):
-                print(set_feature_to_str(line.set_feature))
-                i0mux = True
-        
             tileVals = set_feature_to_str(line.set_feature).split(".")
             tileLoc = tileVals[0]
             featureName = ".".join((tileVals[1], tileVals[2]))
-            
-            if i0mux:
-                print(f"{tileLoc} {featureName}")
             
             if tileLoc not in specDict["TileMap"].keys():
                 print(f"Tile {tileLoc} found in fasm file not found in bitstream spec")
@@ -69,11 +60,6 @@ def genBitstream(fasmFile: str, specFile: str, bitstreamFile: str):
             tileType = specDict["TileMap"][tileLoc]
             if featureName in specDict["TileSpecs"][tileLoc].keys():
                 if specDict["TileSpecs"][tileLoc][featureName]:
-                
-                    if i0mux:
-                        print(specDict["TileSpecs"][tileLoc][featureName])
-                        print(specDict["TileSpecs_No_Mask"][tileLoc][featureName])
-                
                     for bitIndex in specDict["TileSpecs"][tileLoc][featureName]:
                         tileDict[tileLoc][bitIndex] = int(
                             specDict["TileSpecs"][tileLoc][featureName][bitIndex]

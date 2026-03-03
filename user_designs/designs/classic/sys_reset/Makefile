@@ -3,4 +3,4 @@ RTL = sys_reset.sv
 TOP = sys_reset
 
 # Include base Makefile
-include ../../makefile.include
+include ../../../makefile.include

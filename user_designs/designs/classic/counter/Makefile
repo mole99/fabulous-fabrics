@@ -3,4 +3,4 @@ RTL = counter.v
 TOP = counter
 
 # Include base Makefile
-include ../../makefile.include
+include ../../../makefile.include

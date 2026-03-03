@@ -3,4 +3,4 @@ RTL = passthrough.v
 TOP = passthrough
 
 # Include base Makefile
-include ../../makefile.include
+include ../../../makefile.include

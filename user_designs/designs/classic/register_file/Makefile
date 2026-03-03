@@ -3,4 +3,4 @@ RTL = register_file.sv
 TOP = register_file
 
 # Include base Makefile
-include ../../makefile.include
+include ../../../makefile.include

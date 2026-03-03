@@ -31,12 +31,12 @@
         default = lib.composeManyExtensions [
           (final: prev: {
               nextpnr = prev.nextpnr.overrideAttrs {
-                version = "0e66c0ce";
+                version = "87f8f83b";
                 src = prev.fetchFromGitHub {
                   owner = "mole99";
                   repo = "nextpnr";
-                  rev = "0e66c0ce4577d2668be1bdd60cb349da70577c01";
-                  hash = "sha256-9KPClUbB/MbrgO8DPKW9J/gYoWkWnTWHNKqfue5cJaM=";
+                  rev = "87f8f83ba44a380ca502a726dbaf7040a12931ab";
+                  hash = "sha256-7QCpZI6Pje92howE/x0fHguaQLefM1VQJma1RMXgXzw=";
                   fetchSubmodules = true;
                 };
                 cmakeFlags =
@@ -52,12 +52,12 @@
             })
             (final: prev: {
               yosys = prev.yosys.overrideAttrs {
-                version = "f3c81241";
+                version = "774d9ba3";
                 src = prev.fetchGitHubSnapshot {
                   owner = "mole99";
                   repo = "yosys";
-                  rev = "f3c8124182f7a2f835674c1f1697f8ca16fbacb4";
-                  hash = "sha256-y4HqpUfZKDNHn6/DYeU1M84niGH7RofgB7TmbT7Eu7c=";
+                  rev = "774d9ba3109f5b338d8724309cbf96941eb966b3";
+                  hash = "sha256-cLpKgDzCq1zDFSbFqcbgu2nGOUMMBGr0BCKk1/KUFJ4=";
                   add-gitcommit = true;
                 };
               };

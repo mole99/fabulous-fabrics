@@ -1,10 +1,13 @@
-PDK ?= ihp-sg13g2
-FABULOUS_ROOT ?= $(abspath ../fabrics/fabric_10x10/macro/$(PDK)/fabulous)
+export PDK 		?= ihp-sg13g2
+export FABRIC 		?= classic_fabric_10x10
+export TILE_LIBRARY 	?= classic
 
-$(info $(FABULOUS_ROOT))
+$(info $(PDK))
+$(info $(FABRIC))
+$(info $(TILE_LIBRARY))
 
 # Get the design names
-DESIGNS :=  $(patsubst designs/%/,%,$(wildcard designs/*/)) 
+DESIGNS :=  $(patsubst designs/${TILE_LIBRARY}/%/,%,$(wildcard designs/${TILE_LIBRARY}/*/)) 
 
 DESIGNS_CLEAN := $(addsuffix -clean,$(DESIGNS))
 DESIGNS_SYNTH := $(addsuffix -synth,$(DESIGNS))
@@ -19,25 +22,25 @@ clean: $(DESIGNS_CLEAN)
 .PHONY: clean
 
 $(DESIGNS):
-	cd designs/$@; FABULOUS_ROOT=$(abspath $(FABULOUS_ROOT)) make
+	cd designs/${TILE_LIBRARY}/$@; make
 .PHONY: $(DESIGNS)
 
 $(DESIGNS_CLEAN):
-	cd designs/$(subst -clean,,$@); make clean
+	cd designs/${TILE_LIBRARY}/$(subst -clean,,$@); make clean
 .PHONY: $(DESIGNS_CLEAN)
 
 $(DESIGNS_SYNTH):
-	cd designs/$(subst -synth,,$@); make synth
+	cd designs/${TILE_LIBRARY}/$(subst -synth,,$@); make synth
 .PHONY: $(DESIGNS_SYNTH)
 
 $(DESIGNS_PNR):
-	cd designs/$(subst -synth,,$@); make pnr
+	cd designs/${TILE_LIBRARY}/$(subst -synth,,$@); make pnr
 .PHONY: $(DESIGNS_PNR)
 
 $(DESIGNS_BIT):
-	cd designs/$(subst -synth,,$@); make bitstream
+	cd designs/${TILE_LIBRARY}/$(subst -synth,,$@); make bitstream
 .PHONY: $(DESIGNS_BIT)
 
 $(DESIGNS_HEX):
-	cd designs/$(subst -synth,,$@); make hex
+	cd designs/${TILE_LIBRARY}/$(subst -synth,,$@); make hex
 .PHONY: $(DESIGNS_HEX)
