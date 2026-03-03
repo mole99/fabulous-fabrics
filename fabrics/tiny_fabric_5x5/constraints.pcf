@@ -1,0 +1,150 @@
+# All I/Os
+
+set_io all[0] X0Y2/A
+set_io all[1] X0Y2/B
+
+set_io all[2] X0Y3/A
+set_io all[3] X0Y3/B
+set_io all[4] X0Y3/C
+set_io all[5] X0Y3/D
+set_io all[6] X0Y1/A
+set_io all[7] X0Y1/B
+set_io all[8] X0Y1/C
+set_io all[9] X0Y1/D
+
+set_io all[10] X4Y3/A
+set_io all[11] X4Y3/B
+set_io all[12] X4Y3/C
+set_io all[13] X4Y3/D
+set_io all[14] X4Y1/A
+set_io all[15] X4Y1/B
+set_io all[16] X4Y1/C
+set_io all[17] X4Y1/D
+
+set_io all[18] X1Y4/A
+set_io all[19] X1Y4/B
+set_io all[20] X1Y4/C
+set_io all[21] X1Y4/D
+set_io all[22] X3Y4/A
+set_io all[23] X3Y4/B
+set_io all[24] X3Y4/C
+set_io all[25] X3Y4/D
+
+# Tiny Tapeout Mapping
+
+set_io clk   X0Y2/A
+set_io rst_n X0Y2/B
+
+set_io ui[0] X0Y3/A
+set_io ui[1] X0Y3/B
+set_io ui[2] X0Y3/C
+set_io ui[3] X0Y3/D
+set_io ui[4] X0Y1/A
+set_io ui[5] X0Y1/B
+set_io ui[6] X0Y1/C
+set_io ui[7] X0Y1/D
+
+set_io uo[0] X4Y3/A
+set_io uo[1] X4Y3/B
+set_io uo[2] X4Y3/C
+set_io uo[3] X4Y3/D
+set_io uo[4] X4Y1/A
+set_io uo[5] X4Y1/B
+set_io uo[6] X4Y1/C
+set_io uo[7] X4Y1/D
+
+set_io uio[0] X1Y4/A
+set_io uio[1] X1Y4/B
+set_io uio[2] X1Y4/C
+set_io uio[3] X1Y4/D
+set_io uio[4] X3Y4/A
+set_io uio[5] X3Y4/B
+set_io uio[6] X3Y4/C
+set_io uio[7] X3Y4/D
+
+# For general tests
+
+set_io clk1 X0Y2/A
+set_io rst  X0Y2/B
+
+set_io clk2 X0Y3/A
+set_io ena  X0Y3/B
+
+set_io a[0] X0Y3/C
+set_io a[1] X0Y3/D
+set_io a[2] X0Y1/A
+set_io a[3] X0Y1/B
+set_io a[4] X0Y1/C
+set_io a[5] X0Y1/D
+
+set_io b[0] X4Y3/A
+set_io b[1] X4Y3/B
+set_io b[2] X4Y3/C
+set_io b[3] X4Y3/D
+set_io b[4] X4Y1/A
+set_io b[5] X4Y1/B
+
+set_io c[0] X4Y1/C
+set_io c[1] X4Y1/D
+
+set_io c[2] X1Y4/A
+set_io c[3] X1Y4/B
+set_io c[4] X1Y4/C
+set_io c[5] X1Y4/D
+set_io c[6] X3Y4/A
+set_io c[7] X3Y4/B
+set_io c[8] X3Y4/C
+set_io c[9] X3Y4/D
+
+# Alternative
+
+set_io d[0] X0Y3/C
+set_io d[1] X0Y3/D
+set_io d[2] X0Y1/A
+set_io d[3] X0Y1/B
+set_io d[4] X0Y1/C
+set_io d[5] X0Y1/D
+
+set_io d[6] X4Y3/A
+set_io d[7] X4Y3/B
+set_io d[8] X4Y3/C
+set_io d[9] X4Y3/D
+set_io d[10] X4Y1/A
+set_io d[11] X4Y1/B
+set_io d[12] X4Y1/C
+set_io d[13] X4Y1/D
+
+set_io d[14] X1Y4/A
+set_io d[15] X1Y4/B
+set_io d[16] X1Y4/C
+set_io d[17] X1Y4/D
+set_io d[18] X3Y4/A
+set_io d[19] X3Y4/B
+set_io d[20] X3Y4/C
+set_io d[21] X3Y4/D
+
+# Multiplication
+
+set_io mult_a[0] X0Y3/A
+set_io mult_a[1] X0Y3/B
+set_io mult_a[2] X0Y3/C
+set_io mult_a[3] X0Y3/D
+set_io mult_a[4] X0Y1/A
+
+set_io mult_b[0] X4Y3/A
+set_io mult_b[1] X4Y3/B
+set_io mult_b[2] X4Y3/C
+set_io mult_b[3] X4Y3/D
+set_io mult_b[4] X4Y1/A
+
+set_io product[0] X1Y4/A
+set_io product[1] X1Y4/B
+set_io product[2] X1Y4/C
+set_io product[3] X1Y4/D
+set_io product[4] X3Y4/A
+set_io product[5] X3Y4/B
+set_io product[6] X3Y4/C
+set_io product[7] X3Y4/D
+
+set_io product[8] X0Y1/B
+set_io product[9] X0Y1/C
