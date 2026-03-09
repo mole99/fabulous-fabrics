@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        pdk: [gf180mcuD, ihp-sg13g2]
+        pdk: [sky130A, gf180mcuD, ihp-sg13g2]
     name: Implement the Tiles (${{ matrix.pdk }})
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ip/fabulous-tiles/tiles
-          key: cache-${{ matrix.pdk }}-tiles
+          key: cache-${{ matrix.pdk }}-tiles-${{ github.sha }}
       - name: Implement the tiles
         run: |
           PDK=${{ matrix.pdk }} nix develop --command bash -c "cd ip/fabulous-tiles/ && make all"
@@ -64,7 +64,7 @@ jobs:
     needs: [tiles]
     strategy:
       matrix:
-        pdk: [gf180mcuD, ihp-sg13g2]
+        pdk: [sky130A, gf180mcuD, ihp-sg13g2]
     name: Stitch the Fabrics (${{ matrix.pdk }})
     steps:
       - uses: actions/checkout@v4
@@ -86,14 +86,14 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: ip/fabulous-tiles/tiles
-          key: cache-${{ matrix.pdk }}-tiles
+          key: cache-${{ matrix.pdk }}-tiles-${{ github.sha }}
           fail-on-cache-miss: true
       - name: Stitch the tiles
         run: |
-          PDK=${{ matrix.pdk }} nix develop --command make fabric_10x10
+          PDK=${{ matrix.pdk }} nix develop --command make classic_fabric_10x10
       - name: Upload Macro Folder
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: fabric_10x10_${{ matrix.pdk }}
-          path: fabrics/fabric_10x10/macro/${{ matrix.pdk }}/
+          name: classic_fabric_10x10_${{ matrix.pdk }}
+          path: fabrics/classic_fabric_10x10/macro/${{ matrix.pdk }}/
