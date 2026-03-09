@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        pdk: [sky130A, gf180mcuD, ihp-sg13g2]
+        pdk: [gf180mcuD, ihp-sg13g2]
     name: Implement the Tiles (${{ matrix.pdk }})
     steps:
       - uses: actions/checkout@v4
@@ -50,9 +50,43 @@ jobs:
         with:
           nix_system: x86_64-linux
           derivation: github:mole99/librelane_plugin_fabulous
+      - name: Cache the tiles
+        uses: actions/cache@v5
+        with:
+          path: ip/fabulous-tiles/tiles
+          key: cache-${{ matrix.pdk }}-tiles
       - name: Implement the tiles
         run: |
           PDK=${{ matrix.pdk }} nix develop --command bash -c "cd ip/fabulous-tiles/ && make all"
+      
+jobs:
+  chip:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        pdk: [gf180mcuD, ihp-sg13g2]
+    name: Stitch the Fabrics (${{ matrix.pdk }})
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Setup Nix
+        uses: ./.github/actions/setup_nix
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_cache_domain: ${{ vars.NIX_CACHE }}
+          nix_public_key: ${{ vars.NIX_PUBLIC_KEY }}
+      - name: Build with Nix
+        uses: ./.github/actions/build_nix
+        with:
+          nix_system: x86_64-linux
+          derivation: github:mole99/librelane_plugin_fabulous
+      - name: Cache the tiles
+        uses: actions/cache@v5
+        with:
+          path: ip/fabulous-tiles/tiles
+          key: cache-${{ matrix.pdk }}-tiles
       - name: Stitch the tiles
         run: |
           PDK=${{ matrix.pdk }} nix develop --command make fabric_10x10
