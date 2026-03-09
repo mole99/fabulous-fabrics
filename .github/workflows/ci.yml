@@ -97,3 +97,4 @@ jobs:
         with:
           name: classic_fabric_10x10_${{ matrix.pdk }}
           path: fabrics/classic_fabric_10x10/macro/${{ matrix.pdk }}/
+          include-hidden-files: true
