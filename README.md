@@ -2,30 +2,39 @@
 
 This repository contains a collection of fabrics using the [fabulous-tiles](https://github.com/mole99/fabulous-tiles) tile libraries.
 
-The fabrics can be found under `fabrics/`.
+The fabrics can be found under `fabrics/`. Current fabrics include:
 
 - classic_fabric_10x10
 - classic_fabric_32x32
 - tiny_fabric_5x5
 
-The prefix describes the tile library that is used, either `classic` or `tiny`.
+The prefix describes the tile library that is used, e.g. `classic` or `tiny`.
 
 The fabrics can be implemented with LibreLane using the FABulous plugin for LibreLane: [librelane_plugin_fabulous](https://github.com/mole99/librelane_plugin_fabulous).
 See below for more information about stitching the fabric. 
 
-TODO documentation
-
-A Continuous Integration (CI) setup implements all of the fabrics for the gf180mcu, sky130, and ihp-sg13g2 PDKs.
+A Continuous Integration (CI) setup implements the fabrics for the gf180mcu, sky130, and ihp-sg13g2 PDKs.
 
 ## Requirements
+
+> [!NOTE]
+> Make sure to clone the repository with submodules!
+>
+>```console
+>git clone --recurse-submodules <url>.git
+>```
+> or initialize the submodules after cloning:
+>
+>```console
+> git submodule update --init --recursive
+>```
 
 For information on installing Nix with the FOSSi Foundation cache, please refer to the LibreLane documentation: https://librelane.readthedocs.io/en/stable/installation/nix_installation/index.html
 
 ## Stitch the Fabrics
 
 As a prerequisite make sure that the tiles for the tile library that you are using have been implemented in `ip/fabulous-tiles`.
-
-If so, you can proceed by enabling a Nix shell with LibreLane in this repository:
+If that is the case, you can proceed by enabling a Nix shell with LibreLane in this repository:
 
 ```
 nix-shell
@@ -55,54 +64,9 @@ To change the PDK, set the `PDK` environment variable:
 export PDK=gf180mcu
 ```
 
-## Implement the User Designs
+## Implement User Designs
 
-Currently, forks of Yosys and nextpnr are required in order to implement the user designs. The changes to these forks are being upstreamed.
-
-You can enable a Nix shell with these forks by running:
-
-```
-cd user_designs; nix-shell
-```
-
-The user designs for both fabric families can be found under `user_designs/designs/`.
-Before you build the user designs, you need to select for which tile library and fabric you want to implement the design.
-
-The default is:
-
-```
-export FABRIC=classic_fabric_10x10
-export TILE_LIBRARY=classic
-```
-
-You can change it for example to:
-
-```
-export FABRIC=tiny_fabric_5x5
-export TILE_LIBRARY=tiny
-```
-
-Finally, you can build the user designs for the fabric:
-
-```
-make all
-```
-
-Or you can build individual user designs
-
-```
-make counter
-```
-
-The following Make targets are available:
-
-```
-make counter-clean
-make counter-synth
-make counter-pnr
-make counter-bit
-make counter-hex
-```
+Please see the README in `user_designs/` on how to implement a user design for the fabrics.
 
 ## Simulate the Fabric
 
@@ -128,7 +92,7 @@ export EMULATE=counter
 Then, run the simulation using cocotb:
 
 ```
-cd tb; python3 bare_tb.py
+cd tb; python3 fabric_tb.py
 ```
 
 #### RTL Simulation
@@ -136,7 +100,7 @@ cd tb; python3 bare_tb.py
 To start the RTL simulation, simply run cocotb:
 
 ```
-cd tb; python3 bare_tb.py
+cd tb; python3 fabric_tb.py
 ```
 
 And it will run all available test cases for the selected fabric and tile library.

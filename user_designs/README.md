@@ -1,44 +1,60 @@
 # User Designs
 
-The following user designs are available:
-
-| Name      | Description |
-|-----------|-------------|
-| `all_zeros` | all outputs set to zero |
-| `all_ones`  | all outputs set to one |
-| `counter`   | 32-bit counter |
-| `passthrough` | inputs connected to outputs |
-
-The intention was for these example designs to be as generic as possible, so they can be reused for various fabrics.
-
+User designs are Verilog designs that run on the FPGA fabric.
+The intention for these example designs is to be as generic as possible, so they can be reused for various fabrics.
 
 ## Requirements
 
-Enable a Nix shell with Yosys and nextpnr:
+Currently, forks of Yosys and nextpnr are required in order to implement the user designs. The changes to these forks are being upstreamed.
+
+Enable a Nix shell with the forks of Yosys and nextpnr:
 
 ```
-nix shell nixpkgs#{yosys,nextpnr}
+nix-shell
 ```
 
-**Note:** To generate the bitstreams you need to `pip3 install fasm`.
+**Note:** To generate the bitstreams you need to `pip3 install fasm`. (Still to be added to the Nix shell.)
+
 
 ## Implement the Designs
 
-To build individual user designs, go into one of the directories and run the commands:
+The user designs for both fabric families can be found under `user_designs/designs/`.
+Before you build the user designs, you need to select for which tile library and fabric you want to implement the design.
+
+The default is:
+
+```
+export FABRIC=classic_fabric_10x10
+export TILE_LIBRARY=classic
+```
+
+You can change it for example to:
+
+```
+export FABRIC=tiny_fabric_5x5
+export TILE_LIBRARY=tiny
+```
+
+To build all user designs, run:
 
 ```
 make all
 ```
 
-```
-make all_zeros
-```
+To build individual user designs, use their name:
 
 ```
-make all_zeros-synth
-make all_zeros-pnr
-make all_zeros-bit
-make all_zeros-hex
+make counter
+```
+
+The following Make targets are available:
+
+```
+make counter-clean
+make counter-synth
+make counter-pnr
+make counter-bit
+make counter-hex
 ```
 
 You can also enter the individual design directories and run make from there:
@@ -51,9 +67,3 @@ Commands:
  clean           ... Delete all generated files
  help            ... Show this help message
 ```
-
----
-
-
-export PATH=~/Repositories/yosys:$PATH
-export PATH=~/Repositories/nextpnr/build/:$PATH
