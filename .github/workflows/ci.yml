@@ -117,7 +117,7 @@ jobs:
           include-hidden-files: true
       - name: Build the User Designs
         run: |
-          cd user_designs; PDK=${{ matrix.pdk }} FABRIC=${{ matrix.fabrics }} nix develop --command make all
+          cd user_designs; PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command make all
       - name: Simulate the Fabric (Emulation)
         run: |
           EMULATION=counter PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 fabric_tb.py"
