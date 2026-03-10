@@ -73,7 +73,7 @@ Please see the README in `user_designs/` on how to implement a user design for t
 After you have generated the bitstreams for the user designs you can simulate the fabric.
 You will again need the Nix shell from the root of this repository.
 
-Again, use `FABRIC` and `TILE_LIBRARY` to select both accordingly.
+Again, use `PDK`, `FABRIC` and `TILE_LIBRARY` accordingly.
 
 There are two ways to simulate the fabric:
 

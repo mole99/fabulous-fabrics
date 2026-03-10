@@ -72,7 +72,8 @@ jobs:
     strategy:
       matrix:
         pdk: [sky130A, gf180mcuD, ihp-sg13g2]
-        fabrics: [classic_fabric_10x10_, tiny_fabric_5x5]
+        fabrics: [classic_fabric_10x10, tiny_fabric_5x5]
+        exclude:
         # Disably tiny_fabric_5x5 for sky130A and gf180mcuD
         - fabrics: tiny_fabric_5x5
           pdk: sky130A
@@ -114,3 +115,12 @@ jobs:
           name: ${{ matrix.fabrics }}_${{ matrix.pdk }}
           path: fabrics/${{ matrix.fabrics }}/macro/${{ matrix.pdk }}/
           include-hidden-files: true
+      - name: Build the User Designs
+        run: |
+          cd user_designs; PDK=${{ matrix.pdk }} FABRIC=${{ matrix.fabrics }} nix develop --command make all
+      - name: Simulate the Fabric (Emulation)
+        run: |
+          EMULATION=counter PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 fabric_tb.py"
+      - name: Simulate the Fabric (Simulation)
+        run: |
+          PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ env.TILE_LIBRARY }} FABRIC=${{ matrix.fabrics }} nix develop --command bash -c "cd tb; python3 fabric_tb.py"
