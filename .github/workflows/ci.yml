@@ -33,7 +33,14 @@ jobs:
     strategy:
       matrix:
         pdk: [sky130A, gf180mcuD, ihp-sg13g2]
-    name: Implement the Tiles (${{ matrix.pdk }})
+        tile_library: [classic, tiny]
+        exclude:
+        # Disably tiny for sky130A and gf180mcuD
+        - tile_library: tiny
+          pdk: sky130A
+        - tile_library: tiny
+          pdk: gf180mcuD
+    name: Tiles (${{ matrix.tile_library }}/${{ matrix.pdk }})
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,10 +61,10 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ip/fabulous-tiles/tiles
-          key: cache-${{ matrix.pdk }}-tiles-${{ github.sha }}
+          key: cache-tiles-${{ matrix.tile_library }}-${{ matrix.pdk }}-${{ github.sha }}
       - name: Implement the tiles
         run: |
-          PDK=${{ matrix.pdk }} nix develop --command bash -c "cd ip/fabulous-tiles/ && make all"
+          PDK=${{ matrix.pdk }} TILE_LIBRARY=${{ matrix.tile_library }} nix develop --command bash -c "cd ip/fabulous-tiles/ && make all"
       
   fabrics:
     runs-on: ubuntu-24.04
@@ -65,7 +72,13 @@ jobs:
     strategy:
       matrix:
         pdk: [sky130A, gf180mcuD, ihp-sg13g2]
-    name: Stitch the Fabrics (${{ matrix.pdk }})
+        fabrics: [classic_fabric_10x10_, tiny_fabric_5x5]
+        # Disably tiny_fabric_5x5 for sky130A and gf180mcuD
+        - fabrics: tiny_fabric_5x5
+          pdk: sky130A
+        - fabrics: tiny_fabric_5x5
+          pdk: gf180mcuD
+    name: Fabric (${{ matrix.fabrics }}/${{ matrix.pdk }})
     steps:
       - uses: actions/checkout@v4
         with:
@@ -82,19 +95,22 @@ jobs:
         with:
           nix_system: x86_64-linux
           derivation: github:mole99/librelane_plugin_fabulous
+      - name: Get the tile library
+        run: |
+          echo "TILE_LIBRARY=$(echo "${{ matrix.fabrics }}" | cut -d'_' -f1)" >> $GITHUB_ENV
       - name: Restore the tiles
         uses: actions/cache/restore@v5
         with:
           path: ip/fabulous-tiles/tiles
-          key: cache-${{ matrix.pdk }}-tiles-${{ github.sha }}
+          key: cache-tiles-${{ env.TILE_LIBRARY }}-${{ matrix.pdk }}-${{ github.sha }}
           fail-on-cache-miss: true
       - name: Stitch the tiles
         run: |
-          PDK=${{ matrix.pdk }} nix develop --command make classic_fabric_10x10
+          PDK=${{ matrix.pdk }} nix develop --command make ${{ matrix.fabrics }}
       - name: Upload Macro Folder
         if: success() || failure()
         uses: actions/upload-artifact@v4
         with:
-          name: classic_fabric_10x10_${{ matrix.pdk }}
-          path: fabrics/classic_fabric_10x10/macro/${{ matrix.pdk }}/
+          name: ${{ matrix.fabrics }}_${{ matrix.pdk }}
+          path: fabrics/${{ matrix.fabrics }}/macro/${{ matrix.pdk }}/
           include-hidden-files: true
