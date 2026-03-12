@@ -60,9 +60,6 @@ if __name__ == "__main__":
     # Add fabric config
     sources.append(proj_path / '../ip/fabric_config/fabric_config.sv')
 
-    # Add fabric config
-    sources.append(proj_path / '../ip/fabric_spi/fabric_spi_receiver.sv')
-
     hdl_toplevel = "eFPGA" # fabric # TODO use proper fabric name
 
     runner = get_runner(sim)
