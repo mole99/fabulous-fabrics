@@ -13,8 +13,7 @@ Enable a Nix shell with the forks of Yosys and nextpnr:
 nix-shell
 ```
 
-**Note:** To generate the bitstreams you need to `pip3 install fasm`. (Still to be added to the Nix shell.)
-
+**Note:** To generate the bitstreams you need to `pip3 install fasm`.
 
 ## Implement the Designs
 

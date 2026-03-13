@@ -56,9 +56,6 @@ if __name__ == "__main__":
 
     # Add fabric netlist
     sources.append(proj_path / f'../fabrics/{fabric}/macro/{pdk}/fabulous/eFPGA.v')
-    
-    # Add fabric config
-    sources.append(proj_path / '../ip/fabric_config/fabric_config.sv')
 
     hdl_toplevel = "eFPGA" # fabric # TODO use proper fabric name
 
