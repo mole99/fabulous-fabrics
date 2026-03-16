@@ -21,7 +21,7 @@ GRT_ANTENNA_REPAIR_ITERS: 0
 DRT_ANTENNA_REPAIR_ITERS: 0
 
 # Basics
-DESIGN_NAME: eFPGA
+DESIGN_NAME: classic_fabric_32x32
 VERILOG_FILES: []
 
 # No extract-unique, because the power straps

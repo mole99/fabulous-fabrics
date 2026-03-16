@@ -109,6 +109,7 @@ class PCF:
 
     def __init__(self, dut, file):
         self.signals = {}
+        self.top = dut._name
         print(f"Reading PCF file: {file}")
         with open(file, "r") as pcf_file:
             while line := pcf_file.readline():
@@ -160,17 +161,17 @@ class PCF:
             for signal_name, signal in self.signals.items():
                 if filter is not None and signal_name in filter:
                     if len(signal) == 1:
-                        outfile.write(f"#{{{signal_name}_IN}} eFPGA.{signal[0]['IN']._name}\n")
-                        outfile.write(f"#{{{signal_name}_OUT}} eFPGA.{signal[0]['OUT']._name}\n")
-                        outfile.write(f"#{{{signal_name}_EN}} eFPGA.{signal[0]['EN']._name}\n")
+                        outfile.write(f"#{{{signal_name}_IN}} {self.top}.{signal[0]['IN']._name}\n")
+                        outfile.write(f"#{{{signal_name}_OUT}} {self.top}.{signal[0]['OUT']._name}\n")
+                        outfile.write(f"#{{{signal_name}_EN}} {self.top}.{signal[0]['EN']._name}\n")
                         outfile.write(f"@200\n")
                         outfile.write(f"-\n")
                         outfile.write(f"@28\n")
                     else:
                         bits = len(signal)
-                        signals_in = [ "eFPGA." + use["IN"]._name for index, use in reversed(signal.items()) ]
-                        signals_out = [ "eFPGA." + use["OUT"]._name for index, use in reversed(signal.items()) ]
-                        signals_en = [ "eFPGA." + use["EN"]._name for index, use in reversed(signal.items()) ]
+                        signals_in = [ self.top + "." + use["IN"]._name for index, use in reversed(signal.items()) ]
+                        signals_out = [ self.top + "." + use["OUT"]._name for index, use in reversed(signal.items()) ]
+                        signals_en = [ self.top + "." + use["EN"]._name for index, use in reversed(signal.items()) ]
                     
                         for use, signals in [("IN", signals_in), ("OUT", signals_out), ("EN", signals_en)]:
                             outfile.write(f"@c00022\n")
