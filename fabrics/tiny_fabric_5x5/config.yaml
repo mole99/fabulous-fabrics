@@ -12,7 +12,7 @@ GRT_ANTENNA_REPAIR_ITERS: 0
 DRT_ANTENNA_REPAIR_ITERS: 0
 
 # Basics
-DESIGN_NAME: eFPGA
+DESIGN_NAME: tiny_fabric_5x5
 VERILOG_FILES: []
 
 # No extract-unique, because the power straps
