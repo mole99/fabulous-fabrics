@@ -21,7 +21,7 @@ if __name__ == "__main__":
     sim = os.getenv("SIM", "icarus")
     pdk_root = os.getenv("PDK_ROOT", Path("~/.ciel").expanduser())
     pdk = os.getenv("PDK", "ihp-sg13g2")
-    scl = os.getenv("SCL", "gf180mcu_fd_sc_mcu7t5v0")
+    scl = os.getenv("SCL", "sg13g2_stdcell")
     gl = os.getenv("GL", None)
     emulation = os.getenv("EMULATION", False)
     tile_library = os.getenv("TILE_LIBRARY", "classic")
