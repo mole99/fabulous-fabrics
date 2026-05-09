@@ -35,9 +35,7 @@ jobs:
         pdk: [sky130A, gf180mcuD, ihp-sg13g2]
         tile_library: [classic, tiny]
         exclude:
-        # Disably tiny for sky130A and gf180mcuD
-        - tile_library: tiny
-          pdk: sky130A
+        # Disably tiny for gf180mcuD
         - tile_library: tiny
           pdk: gf180mcuD
     name: Tiles (${{ matrix.tile_library }}/${{ matrix.pdk }})
@@ -83,7 +81,9 @@ jobs:
           pdk: gf180mcuD
         # Disably classic_fabric_heichips25 for sky130A and gf180mcuD
         - fabrics: classic_fabric_heichips25
-          pdk: [sky130A, gf180mcuD]
+          pdk: sky130A
+        - fabrics: classic_fabric_heichips25
+          pdk: gf180mcuD
     name: Fabric (${{ matrix.fabrics }}/${{ matrix.pdk }})
     steps:
       - uses: actions/checkout@v6
