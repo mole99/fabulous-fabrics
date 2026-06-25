@@ -22,3 +22,5 @@ __pycache__/
 # cocotb
 sim_build/
 *.gtkw
+
+IHP-Open-PDK/
