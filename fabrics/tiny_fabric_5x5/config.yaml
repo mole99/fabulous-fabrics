@@ -58,9 +58,16 @@ pdk::gf180mcu*:
     # Routing
     RT_MAX_LAYER: Metal4
 
-pdk::ihp-sg13*:
+pdk::ihp-sg13g2:
     # Routing
-    RT_MAX_LAYER: Metal5
+    RT_MAX_LAYER: TopMetal1
+    
+    # Timing model generation
+    FABULOUS_TIMING_MODEL: PHYSICAL
+
+pdk::ihp-sg13cmos5l:
+    # Routing
+    RT_MAX_LAYER: Metal4
     
     # Timing model generation
     FABULOUS_TIMING_MODEL: PHYSICAL
