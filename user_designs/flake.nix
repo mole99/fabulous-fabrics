@@ -9,7 +9,7 @@
   };
 
   inputs = {
-    nix-eda.url = "github:fossi-foundation/nix-eda/6.0.2";
+    nix-eda.url = "github:fossi-foundation/nix-eda/7.0.0";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
   };
@@ -59,15 +59,9 @@
             };
           })
           (final: prev: {
-            yosys = prev.yosys.overrideAttrs {
-              version = "2231c860";
-              src = prev.fetchGitHubSnapshot {
-                owner = "mole99";
-                repo = "yosys";
-                rev = "2231c860ec7afd8eef9ba97231c3a10950469e95";
-                hash = "sha256-OwLoMsdEmTvlrD7q7yU/rkLzX6h4GGB98OKzfRFFW/0=";
-                add-gitcommit = true;
-              };
+            yosys = prev.yosys.override {
+              version = "0.67";
+              sha256 = "sha256-qi1YXob6xlS8NMEYEPxG6Z0mP3CUzD9pMCCq7xmnoqE=";
             };
           })
         ];
